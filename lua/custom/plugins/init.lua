@@ -6,8 +6,12 @@
 vim.cmd 'language en_GB'
 
 vim.opt.termguicolors = true
+
 vim.opt.wrap = true
-vim.diagnostic.config { update_in_insert = true }
+vim.diagnostic.config {
+  update_in_insert = true,
+  underline = false,
+}
 
 -- TODO: custom keymaps. These should be moved to appropriate location eg. lua/custom/mappings.lua, which should be imported in the toppest init.lua
 vim.keymap.set('n', ';', ':', { desc = '' })
@@ -15,9 +19,6 @@ vim.keymap.set('n', ';', ':', { desc = '' })
 -- buffer control
 vim.keymap.set('n', '<Tab>', '<cmd>bnext<CR>', { desc = 'Next buffer' })
 vim.keymap.set('n', '<Leader>x', '<cmd>bdelete<CR>', { desc = 'delete buffer' })
-
--- neotree
-vim.keymap.set('n', '<Leader>e', '<cmd>Neotree toggle position=right<CR>', { desc = 'Toggle Neotree' })
 
 --telescope
 vim.keymap.set('n', '<Leader>tc', '<cmd>Telescope colorscheme<CR>', { desc = '[T]elescope [C]olorscheme' })
