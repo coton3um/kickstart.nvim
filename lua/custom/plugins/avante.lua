@@ -13,7 +13,7 @@ return {
       auto_set_highlight_group = true,
       auto_set_keymaps = true,
       auto_apply_diff_after_generation = false,
-      support_paste_from_clipboard = false,
+      support_paste_from_clipboard = true,
       minimize_diff = true,
     },
 
@@ -21,7 +21,7 @@ return {
     windows = {
       position = 'right', -- サイドバーの位置
       wrap = true, -- テキストの折り返し
-      width = 30, -- サイドバーの幅
+      width = 45, -- サイドバーの幅
     },
   },
   -- 依存関係の設定
@@ -49,8 +49,18 @@ return {
           drag_and_drop = {
             insert_mode = true,
           },
+          -- required for Windows users
+          use_absolute_path = true,
         },
       },
+    },
+    {
+      -- Make sure to set this up properly if you have lazy=true
+      'MeanderingProgrammer/render-markdown.nvim',
+      opts = {
+        file_types = { 'markdown', 'Avante' },
+      },
+      ft = { 'markdown', 'Avante' },
     },
   },
 }
