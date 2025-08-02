@@ -37,6 +37,19 @@ vim.keymap.set('n', '<Leader>V', '<cmd>ToggleTerm size=80 direction=vertical<CR>
 vim.keymap.set('n', '<M-i>', '<cmd>ToggleTerm direction=float<CR>', { desc = 'Open Terminal floating' })
 vim.keymap.set('t', '<M-i>', '<cmd>ToggleTerm direction=float<CR>', { desc = 'Open Terminal floating' })
 
+-- macos like keybindings for text editing in insert mode
+local opts = { noremap = true, silent = true }
+vim.keymap.set('i', '<C-a>', '<C-o>^', opts)
+vim.keymap.set('i', '<C-e>', '<C-o>$', opts)
+vim.keymap.set('i', '<C-k>', '<C-o>D', opts)
+vim.keymap.set('i', '<C-u>', '<C-o>d0', opts)
+vim.keymap.set('i', '<C-f>', '<Right>', opts)
+vim.keymap.set('i', '<C-b>', '<Left>', opts)
+vim.keymap.set('i', '<C-d>', '<Del>', opts)
+vim.keymap.set('i', '<C-h>', '<BS>', opts)
+vim.keymap.set('i', '<C-n>', '<Down>', opts)
+vim.keymap.set('i', '<C-p>', '<Up>', opts)
+
 -- neovide
 local function set_ime(args)
   if args.event:match 'Enter$' then
