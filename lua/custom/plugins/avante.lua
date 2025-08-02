@@ -1,5 +1,6 @@
 return {
   'yetone/avante.nvim',
+  -- enabled = false,
   event = 'VeryLazy',
   lazy = false,
   version = false,
@@ -21,7 +22,7 @@ return {
     windows = {
       position = 'right', -- サイドバーの位置
       wrap = true, -- テキストの折り返し
-      width = 45, -- サイドバーの幅
+      width = 35, -- サイドバーの幅
     },
   },
   -- 依存関係の設定

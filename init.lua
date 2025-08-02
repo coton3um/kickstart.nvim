@@ -618,39 +618,12 @@ require('lazy').setup({
       --  - filetypes (table): Override the default list of associated filetypes for the server
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
-      --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+      --  For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
-        rust_analyzer = {
-          opts = {
-            checkOnSave = { enable = true },
-            diagnostics = { enable = true },
-          },
-          settings = {
-            ['rust-analyzer'] = {
-              diagnostics = {
-                underline = false,
-              },
-              imports = {
-                granularity = {
-                  group = 'module',
-                },
-                prefix = 'self',
-              },
-              cargo = {
-                buildScripts = {
-                  enable = true,
-                },
-              },
-              procMacro = {
-                enable = true,
-              },
-            },
-          },
-        },
-
+        -- rust_analyzer = {}
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -673,6 +646,65 @@ require('lazy').setup({
             },
           },
         },
+        bashls = {
+          -- cmd = {},
+          filetypes = { 'bash', 'zsh', 'sh' },
+          -- capabilities = {},
+          -- settings = {},
+        },
+        yamlls = {},
+        taplo = { -- for TOML
+          cmd = { 'taplo', 'lsp', 'stdio' },
+          filetypes = { 'toml' },
+          capabilities = {},
+          settings = {},
+        },
+        rust_analyzer = {
+          cmd = {},
+          filetypes = {},
+          capabilities = {},
+          settings = {
+            ['rust-analyzer'] = {
+              checkOnSave = {
+                enable = true,
+              },
+              diagnostics = {
+                enable = true,
+                underline = false,
+              },
+              imports = {
+                granularity = {
+                  group = 'module',
+                },
+                prefix = 'self',
+              },
+              cargo = {
+                buildScripts = {
+                  enable = true,
+                },
+              },
+              procMacro = {
+                enable = true,
+              },
+            },
+          },
+        },
+        hls = {
+          cmd = { 'haskell-language-server-wrapper', '--lsp' },
+          filetypes = { 'haskell', 'lhaskell', 'cabal' },
+          capabilities = {},
+          root_dir = function(bufnr, on_dir)
+            local fname = vim.api.nvim_buf_get_name(bufnr)
+            local util = require 'neovim.util'
+            on_dir(util.root_pattern('hie.yaml', 'stack.yaml', 'cabal.project', '*.cabal', 'package.yaml')(fname))
+          end,
+          settings = {
+            haskell = {
+              cabalFormattingProvider = 'cabalfmt',
+              formattingProvider = 'ormolu',
+            },
+          },
+        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -692,6 +724,7 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'markdownlint',
+        'beautysh',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -745,6 +778,10 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         rust = { 'rust-analyzer' },
+        haskell = { 'ormolu', 'fourmolu' },
+        sh = { 'beautysh' },
+        bash = { 'beautysh' },
+        zsh = { 'beautysh' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
